@@ -1,47 +1,46 @@
 <template>
-  <nav :style="parseStyles(styles['nav'])">
-    <div :style="parseStyles(styles['div'])">
-      <ul :style="parseStyles(styles['ul'])">
+  <section>
+  <component :is="'style'">
+  @scope {
+      {{ css }}
+  }
+  </component>
+
+  <nav class="streamlit-navbar">
+    <div class="streamlit-navbar-left">
+      <ul>
         <li
           v-if="args.base64_svg"
-          :style="parseStyles(styles['li'])"
         >
           <a
             v-if="args.logo_page"
             href="#"
-            :style="parseStyles(styles['a'])"
             @click="onClicked(args.logo_page)"
           >
             <img
               :src="`data:image/svg+xml; base64, ${args.base64_svg}`"
-              :style="parseStyles(styles['img'])"
             />
           </a>
           <a
             v-else-if="args.logo_page === null"
-            :style="parseStyles(styles['a'])"
           >
             <img
               :src="`data:image/svg+xml; base64, ${args.base64_svg}`"
-              :style="parseStyles(styles['img'])"
             />
           </a>
         </li>
         <li
           v-for="page in args.pages"
           :key="page"
-          :style="parseStyles(styles['li'])"
         >
           <a
             :href="`${args.urls[page][0]}`"
             :target="`${args.urls[page][1]}`"
-            :style="parseStyles(styles['a'])"
             @click="onClicked(page)"
           >
             <span
               :data-text="page"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
-              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
             >
               {{ page }}
             </span>
@@ -49,7 +48,18 @@
         </li>
       </ul>
     </div>
+    <div class="streamlit-navbar-right">
+      <ul>
+       <li>
+          <span>5.35</span>
+        </li>
+       <li>
+         <span>Hans Then</span>
+        </li>
+      </ul>
+    </div>
   </nav>
+  </section>
 </template>
 
 <script setup>
@@ -80,6 +90,7 @@ const onClicked = (page) => {
     }
 
 const styles = ref(props.args.styles || {})
+const css = ref(props.args.style || "")
 
 const parseStyles = (dictionary, condition) => {
   if (typeof condition === "undefined") {
@@ -117,6 +128,7 @@ if (!(bgColor === "")) {
 </script>
 
 <style scoped>
+@layer default {
 /* HTML tags */
 * {
   margin: 0;
@@ -158,6 +170,12 @@ span {
   display: block;
   text-align: center;
 }
+div.streamlit-navbar-left > ul {
+  justify-content: left;
+}
+div.streamlit-navbar-right > ul {
+  justify-content: right;
+}
 
 /* Special class that acts as an :active pseudo-class for <span> */
 .active {
@@ -183,5 +201,6 @@ span::before {
 }
 .hover-bg-color:hover {
   background-color: v-bind(bgColor) !important;
+}
 }
 </style>
