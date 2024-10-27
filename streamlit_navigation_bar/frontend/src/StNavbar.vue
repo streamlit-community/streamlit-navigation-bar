@@ -30,7 +30,7 @@
           </a>
         </li>
         <li
-          v-for="page in args.pages"
+          v-for="page in args.left"
           :key="page"
         >
           <a
@@ -50,11 +50,22 @@
     </div>
     <div class="streamlit-navbar-right">
       <ul>
-       <li>
-          <span>5.35</span>
-        </li>
-       <li>
-         <span>Hans Then</span>
+        <li
+          v-for="page in args.right"
+          :key="page"
+        >
+          <a
+            :href="`${args.urls[page][0]}`"
+            :target="`${args.urls[page][1]}`"
+            @click="onClicked(page)"
+          >
+            <span
+              :data-text="page"
+              :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
+            >
+              {{ page }}
+            </span>
+          </a>
         </li>
       </ul>
     </div>
@@ -91,20 +102,6 @@ const onClicked = (page) => {
 
 const styles = ref(props.args.styles || {})
 const css = ref(props.args.style || "")
-
-const parseStyles = (dictionary, condition) => {
-  if (typeof condition === "undefined") {
-    condition = true
-  }
-  if (!condition) {
-    return ""
-  }
-  let styleString = ""
-  for (const key in dictionary) {
-    styleString += `${key}:${dictionary[key]};`
-  }
-  return styleString
-}
 
 let color = ""
 let bgColor = ""
