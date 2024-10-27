@@ -257,6 +257,7 @@ def st_navbar(
     options=True,
     adjust=True,
     key=None,
+    style=None,
 ):
     """
     Place a navigation bar in your Streamlit app.
@@ -375,6 +376,8 @@ def st_navbar(
     check_adjust(adjust)
     check_key(key)
 
+    style = style or {}
+
     if selected is sentinel:
         if logo_path is not None:
             default = logo_page
@@ -397,6 +400,8 @@ def st_navbar(
         urls=urls,
         styles=styles,
         key=key,
+        # changes below here
+        style=style,
     )
 
     if adjust:
