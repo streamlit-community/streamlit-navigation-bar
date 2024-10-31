@@ -7,7 +7,7 @@ span[data-testid="stMainMenu"] {
 {% endblock %}
 
 {% block hide_sidebar %}
-div[data-testid="collapsedControl"] {
+div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     visibility: hidden;
 }
 {% endblock %}
