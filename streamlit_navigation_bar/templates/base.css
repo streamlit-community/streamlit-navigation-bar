@@ -1,10 +1,10 @@
 {# style the navbar #}
 iframe[title="streamlit_navigation_bar.st_navbar"] {
     height: {{ ui.height }};
-    left: 0;
-    margin-top: calc(-6rem + -{{ ui.height }});
     position: fixed;
     z-index: 9999;
+    top: 0px;
+    left: 0px;
     {% if margin %}
     width: calc(100% - 5.125rem);
     margin-left: 2.5625rem;
