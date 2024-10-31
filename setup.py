@@ -7,17 +7,17 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 setup(
-    name="streamlit-navigation-bar",
-    version="3.3.0",
+    name="streamlit-community-navigation-bar",
+    version="4.0.0",
     description="A component that allows you to place a navigation bar in your Streamlit app.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/gabrieltempass/streamlit-navigation-bar",
+    url="https://github.com/streamlit-community/streamlit-navigation-bar",
     project_urls={
-        "Source Code": "https://github.com/gabrieltempass/streamlit-navigation-bar",
-        "Bug Tracker": "https://github.com/gabrieltempass/streamlit-navigation-bar/issues",
-        "Release notes": "https://github.com/gabrieltempass/streamlit-navigation-bar/releases",
-        "Documentation": "https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference",
+        "Source Code": "https://github.com/streamlit-community/streamlit-navigation-bar",
+        "Bug Tracker": "https://github.com/streamlit-community/streamlit-navigation-bar/issues",
+        "Release notes": "https://github.com/streamlit-community/streamlit-navigation-bar/releases",
+        "Documentation": "https://github.com/streamlit-community/streamlit-navigation-bar/wiki/API-reference",
         "Community": "https://discuss.streamlit.io/t/new-component-streamlit-navigation-bar/66032",
     },
     author="Gabriel Tem Pass",
@@ -56,7 +56,7 @@ setup(
     },
     python_requires=">=3.8",
     install_requires=[
-        "streamlit >= 1.33.0",
+        "streamlit >= 1.39.0",
         "st-theme >= 1.2.3",
     ],
 )
