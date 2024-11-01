@@ -168,3 +168,5 @@ cython_debug/
 
 # TypeScript
 *.tsbuildinfo
+
+.pypirc
