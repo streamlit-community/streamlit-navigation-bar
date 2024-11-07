@@ -20,7 +20,7 @@ from streamlit_navigation_bar.errors import (
 )
 
 
-_RELEASE = False
+_RELEASE = True
 
 if not _RELEASE:
     _st_navbar = components.declare_component(
