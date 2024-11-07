@@ -56,7 +56,7 @@ setup(
     },
     python_requires=">=3.8",
     install_requires=[
-        "streamlit >= 1.39.0",
+        "streamlit <= 1.38.0",
         "st-theme >= 1.2.3",
     ],
 )
