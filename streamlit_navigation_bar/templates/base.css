@@ -1,5 +1,6 @@
 {# style the navbar #}
 iframe[title="streamlit_navigation_bar.st_navbar"] {
+    pointer-events: auto;
     height: {{ ui.height }};
     position: fixed;
     z-index: 9999;
