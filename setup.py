@@ -8,7 +8,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="streamlit-community-navigation-bar",
-    version="4.0.1",
+    version="4.0.3",
     description="A component that allows you to place a navigation bar in your Streamlit app.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -56,7 +56,7 @@ setup(
     },
     python_requires=">=3.8",
     install_requires=[
-        "streamlit >= 1.39.0",
+        "streamlit <= 1.38.0",
         "st-theme >= 1.2.3",
     ],
 )
