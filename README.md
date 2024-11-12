@@ -20,7 +20,7 @@ It has some cool functionalities, like displaying an optional logo and external 
 Open a terminal and run:
 
 ``` bash
-pip install streamlit-navigation-bar
+pip install streamlit-community-navigation-bar
 ```
 
 ## Example
