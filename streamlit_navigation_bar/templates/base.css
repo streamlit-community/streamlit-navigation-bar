@@ -116,5 +116,6 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 {# style the chat input #}
 div[data-testid="stBottom"] {
     /* Compensate for section.main being repositioned */
+    pointer-events: auto;
     bottom: {{ ui.height }};
 }
