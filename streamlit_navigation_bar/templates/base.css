@@ -63,6 +63,9 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
 div[data-testid="stAppViewContainer"] {
     pointer-events: none;
 }
+div[data-testid="stMainBlockContainer"] {
+    pointer-events: auto;
+}
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     pointer-events: auto;
 }
