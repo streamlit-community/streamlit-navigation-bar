@@ -66,6 +66,10 @@ div[data-testid="stAppViewContainer"] {
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     pointer-events: auto;
 }
+
+div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] div {
+    margin-top: unset;
+}
 section[data-testid="stSidebar"] {
     pointer-events: auto;
 }
