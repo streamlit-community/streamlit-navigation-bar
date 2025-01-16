@@ -249,6 +249,7 @@ sentinel = object()
 
 def st_navbar(
     pages,
+    right=None,
     selected=sentinel,
     logo_path=None,
     logo_page="Home",
@@ -271,6 +272,9 @@ def st_navbar(
     pages : list of str
         A list with the name of each page that will be displayed in the
         navigation bar.
+    right : list of str
+        A list with the name of each page that will be displayed in the
+        right part of the navigation bar.
     selected : str or None, optional
         The preselected page on first render. It can be a name from `pages`,
         the `logo_page` (when there is a logo) or ``None``. Defaults to the
@@ -365,6 +369,13 @@ def st_navbar(
        https://st-navbar-1.streamlit.app/
        height: 300px
     """
+    # Do some trickery to differentiate between
+    # the left part of the navigation menu
+    # and the right part
+    left = pages
+    right = right or []
+    pages = left + right
+
     check_pages(pages)
     check_selected(selected, logo_page, logo_path, pages)
     check_logo_path(logo_path)
@@ -390,7 +401,8 @@ def st_navbar(
     urls = _prepare_urls(urls, pages)
 
     page = _st_navbar(
-        pages=pages,
+        left=left,
+        right=right,
         default=default,
         base64_svg=base64_svg,
         logo_page=logo_page,
