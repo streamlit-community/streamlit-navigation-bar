@@ -149,9 +149,6 @@ if (!(bgColor === "")) {
 
 <style scoped>
 @layer default {
-div.streamlit-navbar-left > ul {
-  justify-content: left;
-}
 div.streamlit-navbar-right > ul {
   justify-content: right;
 }
