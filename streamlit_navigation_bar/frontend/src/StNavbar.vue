@@ -1,6 +1,10 @@
 <template>
-  <nav :style="parseStyles(styles['nav'])">
-    <div :style="parseStyles(styles['div'])">
+  <nav 
+      class="streamlit-navbar"
+      :style="parseStyles(styles['nav'])">
+    <div 
+      class="streamlit-navbar-left"
+      :style="parseStyles(styles['div'])">
       <ul :style="parseStyles(styles['ul'])">
         <li
           v-if="args.base64_svg"
@@ -28,7 +32,34 @@
           </a>
         </li>
         <li
-          v-for="page in args.pages"
+          v-for="page in args.left"
+          :key="page"
+          :style="parseStyles(styles['li'])"
+        >
+          <a
+            :href="`${args.urls[page][0]}`"
+            :target="`${args.urls[page][1]}`"
+            :style="parseStyles(styles['a'])"
+            @click="onClicked(page)"
+          >
+            <span
+              :data-text="page"
+              :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
+              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+            >
+              {{ page }}
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div 
+      v-if="args.right.length"
+      class="streamlit-navbar-right"
+      :style="parseStyles(styles['div'])">
+      <ul :style="parseStyles(styles['ul'])">
+        <li
+          v-for="page in args.right"
           :key="page"
           :style="parseStyles(styles['li'])"
         >
@@ -117,6 +148,14 @@ if (!(bgColor === "")) {
 </script>
 
 <style scoped>
+@layer default {
+div.streamlit-navbar-left > ul {
+  justify-content: left;
+}
+div.streamlit-navbar-right > ul {
+  justify-content: right;
+}
+
 /* HTML tags */
 * {
   margin: 0;
@@ -183,5 +222,6 @@ span::before {
 }
 .hover-bg-color:hover {
   background-color: v-bind(bgColor) !important;
+}
 }
 </style>
