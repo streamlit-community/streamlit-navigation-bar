@@ -1,4 +1,8 @@
 <template>
+<link rel="stylesheet" 
+   type="text/css" 
+   href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
   <nav 
       class="streamlit-navbar"
       :style="parseStyles(styles['nav'])">
@@ -46,8 +50,18 @@
               :data-text="page"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+	      style="display: inline-block;"
             >
-              {{ page }}
+              <div 
+                v-if="page in args.icons"
+                class="material-icons"
+                style="display: inline; vertical-align: middle"
+              >
+                {{ args.icons[page] }} 
+	      </div>
+              <div class="streamlit-navbar-page" style="display: inline; vertical-align: middle; margin-left: 0.35em">
+	        {{ page }}
+              </div>
             </span>
           </a>
         </li>
@@ -73,8 +87,18 @@
               :data-text="page"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+	      style="display: inline-block"
             >
+              <div 
+                v-if="page in args.icons"
+                class="material-icons"
+                style="display: inline; vertical-align: middle"
+              >
+                {{ args.icons[page] }} 
+              </div>
+	      <div class="streamlit-navbar-page" style="display: inline; vertical-align: middle; margin-left: 0.35em">
               {{ page }}
+              </div>
             </span>
           </a>
         </li>
@@ -104,11 +128,11 @@ watch(selected, () => {
 )
 
 const onClicked = (page) => {
-      if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
-        activePage.value = page
-        Streamlit.setComponentValue(page)
-      }
-    }
+  if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
+    activePage.value = page
+    Streamlit.setComponentValue(page)
+  }
+}
 
 const styles = ref(props.args.styles || {})
 
@@ -168,7 +192,7 @@ nav {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-div {
+div.streamlit-navbar-left, div.streamlit-navbar-right {
   max-width: 43.75rem;
   width: 100%;
 }
@@ -189,7 +213,7 @@ img {
   display: flex;
   height: 1.875rem;
 }
-span {
+span.streamlit-navbar-page {
   color: var(--text-color);
   display: block;
   text-align: center;
@@ -202,7 +226,7 @@ span {
 }
 
 /* Stop the page names from moving when the active <span> is set to bold */
-span::before {
+span.streamlit-navbar-page::before {
   content: attr(data-text);
   display: flex;
   font-weight: bold;

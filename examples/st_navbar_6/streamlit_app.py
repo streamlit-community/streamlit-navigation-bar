@@ -23,15 +23,18 @@ styles = {
     },
 }
 
-right = ["🔥", "User"]
+icons = {
+    "Documentation": ":material/thumb_up:"
+}
+
 page = st_navbar(
     ["Home",
      "Documentation",
      "Examples",
      "Community",
      "About"],
-    right=right,
     styles=styles,
+    icons=icons,
 )
 
 st.write(page)
