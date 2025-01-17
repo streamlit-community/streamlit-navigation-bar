@@ -20,7 +20,7 @@ from streamlit_navigation_bar.errors import (
 )
 
 
-_RELEASE = True
+_RELEASE = "STREAMLIT_COMMUNITY_DEVELOPMENT" in os.environ
 
 if not _RELEASE:
     _st_navbar = components.declare_component(
@@ -59,6 +59,18 @@ def _prepare_urls(urls, pages):
         else:
             urls[page] = ["#", "_self"]
     return urls
+
+
+def _prepare_icons(icons):
+    if icons is None:
+        icons = {}
+
+    icons = {
+        k: v.strip(":").split("/")[-1].replace("_", " ").title().replace(" ", "")
+        for k, v in icons.items()
+    }
+
+    return icons
 
 
 def _prepare_options(options):
@@ -130,8 +142,7 @@ def position_body(key, use_padding):
         # The position of the body will be right below the navbar.
         margin_bottom = "-8rem"
 
-    html = (
-        f"""
+    html = f"""
         <style>
             div[data-testid="stVerticalBlockBorderWrapper"]:has(
                 div[data-testid="stVerticalBlock"]
@@ -144,7 +155,6 @@ def position_body(key, use_padding):
         </style>
         <span class='{key}'></span>
         """
-    )
     container = st.container()
     container.html(html)
     return container
@@ -159,7 +169,7 @@ def adjust_css(styles, options, key, path):
     templates to adjust the CSS and display the navbar at the full width at the
     top of the window, among other options that can be toggled on or off.
 
-    It also matches the style, theme and configuration between the navbar and 
+    It also matches the style, theme and configuration between the navbar and
     Streamlit's User Interface (UI) elements, to make them look seamless.
 
     Parameters
@@ -254,6 +264,7 @@ def st_navbar(
     logo_path=None,
     logo_page="Home",
     urls=None,
+    icons=None,
     styles=None,
     options=True,
     adjust=True,
@@ -261,7 +272,7 @@ def st_navbar(
 ):
     """
     Place a navigation bar in your Streamlit app.
-    
+
     If there is no ``st.set_page_config`` command on the app page,
     ``st_navbar`` must be the first Streamlit command used, and must only be
     set once per page. If there is a ``st.set_page_config`` command, then
@@ -293,8 +304,12 @@ def st_navbar(
     urls : dict of {str : str}, optional
         A dictionary with the page name as the key and an external URL as the
         value, both as strings. The page name must be contained in the `pages`
-        list. The URL will open in a new window or tab. The default is
-        ``None``.
+        list. The URL will open in a new window or tab.
+    icons : dict of {str : str}, optional
+        A dictionary with the page name as the key and a reference to an icon
+        in the Material Symbols library in the format
+        ``":material/icon_name:"`` where "icon_name" is the name of the icon
+        in snake case.
     styles : dict of {str : dict of {str : str}}, optional
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
@@ -355,7 +370,7 @@ def st_navbar(
     available at:
 
     https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/API-reference
-    
+
     Examples
     --------
     >>> import streamlit as st
@@ -400,6 +415,10 @@ def st_navbar(
 
     urls = _prepare_urls(urls, pages)
 
+    if icons is None:
+        icons = {}
+    icons = {k: v.strip(":").split("/")[-1] for k, v in icons.items()}
+
     page = _st_navbar(
         left=left,
         right=right,
@@ -407,6 +426,7 @@ def st_navbar(
         base64_svg=base64_svg,
         logo_page=logo_page,
         urls=urls,
+        icons=icons,
         styles=styles,
         key=key,
     )
