@@ -24,7 +24,7 @@ styles = {
 }
 
 icons = {
-    "Documentation": ":material/thumb_up:"
+    "Documentation": ":material/add_home_work:"
 }
 
 page = st_navbar(

@@ -20,7 +20,7 @@ from streamlit_navigation_bar.errors import (
 )
 
 
-_RELEASE = "STREAMLIT_COMMUNITY_DEVELOPMENT" in os.environ
+_RELEASE = "STREAMLIT_COMMUNITY_DEVELOPMENT" not in os.environ
 
 if not _RELEASE:
     _st_navbar = components.declare_component(
