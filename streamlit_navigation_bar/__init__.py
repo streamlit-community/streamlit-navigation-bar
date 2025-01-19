@@ -266,6 +266,7 @@ def st_navbar(
     urls=None,
     icons=None,
     styles=None,
+    css=None,
     options=True,
     adjust=True,
     key=None,
@@ -310,6 +311,8 @@ def st_navbar(
         in the Material Symbols library in the format
         ``":material/icon_name:"`` where "icon_name" is the name of the icon
         in snake case.
+    css : str, optional
+        Custom CSS styles. Allows arbitrary css to be added to the component.
     styles : dict of {str : dict of {str : str}}, optional
         Apply CSS styles to desired targets, through a dictionary with the HTML
         tag or pseudo-class name as the key and another dictionary to style it
@@ -428,6 +431,7 @@ def st_navbar(
         urls=urls,
         icons=icons,
         styles=styles,
+        css=css,
         key=key,
     )
 

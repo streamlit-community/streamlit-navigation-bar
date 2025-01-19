@@ -1,22 +1,32 @@
 <template>
-<link rel="stylesheet" 
-   type="text/css" 
-   href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <section>
+  <link rel="stylesheet"
+    type="text/css"
+    href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <component v-if="css" :is="'style'">
+  @scope {
+      {{ css }}
+  }
+  </component>
 
   <nav 
       class="streamlit-navbar"
       :style="parseStyles(styles['nav'])">
     <div 
-      class="streamlit-navbar-left"
+      class="streamlit-navbar-left streamlit-navbar-group"
       :style="parseStyles(styles['div'])">
-      <ul :style="parseStyles(styles['ul'])">
+      <ul :style="parseStyles(styles['ul'])"
+	class="streamlit-navbar-list">
         <li
           v-if="args.base64_svg"
           :style="parseStyles(styles['li'])"
+	  class="streamlit-navbar-item"
         >
           <a
             v-if="args.logo_page"
             href="#"
+	    class="streamlit-navbar-anchor"
             :style="parseStyles(styles['a'])"
             @click="onClicked(args.logo_page)"
           >
@@ -27,9 +37,11 @@
           </a>
           <a
             v-else-if="args.logo_page === null"
+	    class="streamlit-navbar-anchor"
             :style="parseStyles(styles['a'])"
           >
             <img
+	      class="streamlit-navbar-logo"
               :src="`data:image/svg+xml; base64, ${args.base64_svg}`"
               :style="parseStyles(styles['img'])"
             />
@@ -37,6 +49,7 @@
         </li>
         <li
           v-for="page in args.left"
+	  class="streamlit-navbar-item"
           :key="page"
           :style="parseStyles(styles['li'])"
         >
@@ -44,22 +57,24 @@
             :href="`${args.urls[page][0]}`"
             :target="`${args.urls[page][1]}`"
             :style="parseStyles(styles['a'])"
+	    class="streamlit-navbar-anchor"
             @click="onClicked(page)"
           >
             <span
               :data-text="page"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+	      class="streamlit-navbar-span"
 	      style="display: inline-block;"
             >
               <div 
                 v-if="page in args.icons"
-                class="material-icons"
+                class="material-icons streamlit-navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
                 {{ args.icons[page] }} 
 	      </div>
-              <div class="streamlit-navbar-page" style="display: inline; vertical-align: middle; margin-left: 0.35em">
+              <div class="streamlit-navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
 	        {{ page }}
               </div>
             </span>
@@ -69,11 +84,13 @@
     </div>
     <div 
       v-if="args.right.length"
-      class="streamlit-navbar-right"
+      class="streamlit-navbar-right streamlit-navbar-group"
       :style="parseStyles(styles['div'])">
-      <ul :style="parseStyles(styles['ul'])">
+      <ul :style="parseStyles(styles['ul'])"
+	class="streamlit-navbar-list">
         <li
           v-for="page in args.right"
+	  class="streamlit-navbar-item"
           :key="page"
           :style="parseStyles(styles['li'])"
         >
@@ -81,22 +98,24 @@
             :href="`${args.urls[page][0]}`"
             :target="`${args.urls[page][1]}`"
             :style="parseStyles(styles['a'])"
+	    class="streamlit-navbar-anchor"
             @click="onClicked(page)"
           >
             <span
               :data-text="page"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+	      class="streamlit-navbar-span"
 	      style="display: inline-block"
             >
               <div 
                 v-if="page in args.icons"
-                class="material-icons"
+                class="material-icons streamlit-navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
                 {{ args.icons[page] }} 
               </div>
-	      <div class="streamlit-navbar-page" style="display: inline; vertical-align: middle; margin-left: 0.35em">
+	      <div class="streamlit-navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
               {{ page }}
               </div>
             </span>
@@ -105,6 +124,7 @@
       </ul>
     </div>
   </nav>
+  </section>
 </template>
 
 <script setup>
@@ -135,6 +155,7 @@ const onClicked = (page) => {
 }
 
 const styles = ref(props.args.styles || {})
+const css = ref(props.args.css)
 
 const parseStyles = (dictionary, condition) => {
   if (typeof condition === "undefined") {
@@ -226,7 +247,7 @@ span.streamlit-navbar-page {
 }
 
 /* Stop the page names from moving when the active <span> is set to bold */
-span.streamlit-navbar-page::before {
+span.streamlit-navbar-text::before {
   content: attr(data-text);
   display: flex;
   font-weight: bold;
