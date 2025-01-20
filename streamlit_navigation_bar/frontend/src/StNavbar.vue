@@ -50,32 +50,32 @@
         <li
           v-for="page in args.left"
 	  class="streamlit-navbar-item"
-          :key="page"
+          :key="page.title"
           :style="parseStyles(styles['li'])"
         >
           <a
-            :href="`${args.urls[page][0]}`"
-            :target="`${args.urls[page][1]}`"
+            :href="page.url[0]"
+            :target="page.url[1]"
             :style="parseStyles(styles['a'])"
 	    class="streamlit-navbar-anchor"
             @click="onClicked(page)"
           >
             <span
-              :data-text="page"
+              :data-text="page.title"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
 	      class="streamlit-navbar-span"
 	      style="display: inline-block;"
             >
               <div 
-                v-if="page in args.icons"
+                v-if="page.icon"
                 class="material-icons streamlit-navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
-                {{ args.icons[page] }} 
+                {{ page.icon }} 
 	      </div>
               <div class="streamlit-navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
-	        {{ page }}
+	        {{ page.title }}
               </div>
             </span>
           </a>
@@ -91,12 +91,12 @@
         <li
           v-for="page in args.right"
 	  class="streamlit-navbar-item"
-          :key="page"
+          :key="page.title"
           :style="parseStyles(styles['li'])"
         >
           <a
-            :href="`${args.urls[page][0]}`"
-            :target="`${args.urls[page][1]}`"
+            :href="page.url[0]"
+            :target="page.url[1]"
             :style="parseStyles(styles['a'])"
 	    class="streamlit-navbar-anchor"
             @click="onClicked(page)"
@@ -109,14 +109,14 @@
 	      style="display: inline-block"
             >
               <div 
-                v-if="page in args.icons"
+                v-if="page.icon"
                 class="material-icons streamlit-navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
-                {{ args.icons[page] }} 
+                {{ page.icon }} 
               </div>
 	      <div class="streamlit-navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
-              {{ page }}
+              {{ page.title }}
               </div>
             </span>
           </a>
@@ -148,9 +148,11 @@ watch(selected, () => {
 )
 
 const onClicked = (page) => {
-  if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
-    activePage.value = page
-    Streamlit.setComponentValue(page)
+  /* remove the object proxy, so we can return it via streamlit */
+  const p = JSON.parse(JSON.stringify(page));
+  if (p === props.args.logo_page || p.url[0] === "#") {
+    activePage.value = p;
+    Streamlit.setComponentValue(p);
   }
 }
 
