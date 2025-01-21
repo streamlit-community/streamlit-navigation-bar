@@ -269,6 +269,7 @@ def st_navbar(
     css=None,
     options=True,
     adjust=True,
+    on_change=None,
     key=None,
 ):
     """
@@ -446,6 +447,7 @@ def st_navbar(
         logo_page=logo_page,
         styles=styles,
         css=css,
+        on_change=on_change,
         key=key,
     )
 
