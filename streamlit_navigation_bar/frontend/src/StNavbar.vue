@@ -11,22 +11,22 @@
   </component>
 
   <nav 
-      class="streamlit-navbar"
+      class="navbar"
       :style="parseStyles(styles['nav'])">
     <div 
-      class="streamlit-navbar-left streamlit-navbar-group"
+      class="navbar-left navbar-group"
       :style="parseStyles(styles['div'])">
       <ul :style="parseStyles(styles['ul'])"
-	class="streamlit-navbar-list">
+	class="navbar-list">
         <li
           v-if="args.base64_svg"
           :style="parseStyles(styles['li'])"
-	  class="streamlit-navbar-item"
+	  class="navbar-item"
         >
           <a
             v-if="args.logo_page"
             href="#"
-	    class="streamlit-navbar-anchor"
+	    class="navbar-anchor"
             :style="parseStyles(styles['a'])"
             @click="onClicked(args.logo_page)"
           >
@@ -37,11 +37,11 @@
           </a>
           <a
             v-else-if="args.logo_page === null"
-	    class="streamlit-navbar-anchor"
+	    class="navbar-anchor"
             :style="parseStyles(styles['a'])"
           >
             <img
-	      class="streamlit-navbar-logo"
+	      class="navbar-logo"
               :src="`data:image/svg+xml; base64, ${args.base64_svg}`"
               :style="parseStyles(styles['img'])"
             />
@@ -49,33 +49,33 @@
         </li>
         <li
           v-for="page in args.left"
-	  class="streamlit-navbar-item"
-          :key="page"
+	  class="navbar-item"
+          :key="page.title"
           :style="parseStyles(styles['li'])"
         >
           <a
-            :href="`${args.urls[page][0]}`"
-            :target="`${args.urls[page][1]}`"
+            :href="page.url[0]"
+            :target="page.url[1]"
             :style="parseStyles(styles['a'])"
-	    class="streamlit-navbar-anchor"
+	    class="navbar-anchor"
             @click="onClicked(page)"
           >
             <span
-              :data-text="page"
+              :data-text="page.title"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
-	      class="streamlit-navbar-span"
+	      class="navbar-span"
 	      style="display: inline-block;"
             >
               <div 
-                v-if="page in args.icons"
-                class="material-icons streamlit-navbar-icon"
+                v-if="page.icon"
+                class="material-icons navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
-                {{ args.icons[page] }} 
+                {{ page.icon }} 
 	      </div>
-              <div class="streamlit-navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
-	        {{ page }}
+              <div class="navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
+	        {{ page.title }}
               </div>
             </span>
           </a>
@@ -84,39 +84,39 @@
     </div>
     <div 
       v-if="args.right.length"
-      class="streamlit-navbar-right streamlit-navbar-group"
+      class="navbar-right navbar-group"
       :style="parseStyles(styles['div'])">
       <ul :style="parseStyles(styles['ul'])"
-	class="streamlit-navbar-list">
+	class="navbar-list">
         <li
           v-for="page in args.right"
-	  class="streamlit-navbar-item"
-          :key="page"
+	  class="navbar-item"
+          :key="page.title"
           :style="parseStyles(styles['li'])"
         >
           <a
-            :href="`${args.urls[page][0]}`"
-            :target="`${args.urls[page][1]}`"
+            :href="page.url[0]"
+            :target="page.url[1]"
             :style="parseStyles(styles['a'])"
-	    class="streamlit-navbar-anchor"
+	    class="navbar-anchor"
             @click="onClicked(page)"
           >
             <span
               :data-text="page"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
-	      class="streamlit-navbar-span"
+	      class="navbar-span"
 	      style="display: inline-block"
             >
               <div 
-                v-if="page in args.icons"
-                class="material-icons streamlit-navbar-icon"
+                v-if="page.icon"
+                class="material-icons navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
-                {{ args.icons[page] }} 
+                {{ page.icon }} 
               </div>
-	      <div class="streamlit-navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
-              {{ page }}
+	      <div class="navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
+              {{ page.title }}
               </div>
             </span>
           </a>
@@ -148,9 +148,11 @@ watch(selected, () => {
 )
 
 const onClicked = (page) => {
-  if (page === props.args.logo_page || props.args.urls[page][0] === "#") {
-    activePage.value = page
-    Streamlit.setComponentValue(page)
+  /* remove the object proxy, so we can return it via streamlit */
+  const p = JSON.parse(JSON.stringify(page));
+  if (p === props.args.logo_page || p.url[0] === "#") {
+    activePage.value = p;
+    Streamlit.setComponentValue(p);
   }
 }
 
@@ -194,7 +196,7 @@ if (!(bgColor === "")) {
 
 <style scoped>
 @layer default {
-div.streamlit-navbar-right > ul {
+div.navbar-right > ul {
   justify-content: right;
 }
 
@@ -213,7 +215,7 @@ nav {
   padding-left: 2rem;
   padding-right: 2rem;
 }
-div.streamlit-navbar-left, div.streamlit-navbar-right {
+div.navbar-left, div.navbar-right {
   max-width: 43.75rem;
   width: 100%;
 }
@@ -234,7 +236,8 @@ img {
   display: flex;
   height: 1.875rem;
 }
-span.streamlit-navbar-page {
+
+div.navbar-text {
   color: var(--text-color);
   display: block;
   text-align: center;
@@ -247,7 +250,7 @@ span.streamlit-navbar-page {
 }
 
 /* Stop the page names from moving when the active <span> is set to bold */
-span.streamlit-navbar-text::before {
+span.navbar-text::before {
   content: attr(data-text);
   display: flex;
   font-weight: bold;

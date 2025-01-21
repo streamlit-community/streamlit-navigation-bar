@@ -422,14 +422,28 @@ def st_navbar(
         icons = {}
     icons = {k: v.strip(":").split("/")[-1] for k, v in icons.items()}
 
+    left = [
+        {
+            "title": title,
+            "icon": icons.get(title),
+            "url": urls.get(title),
+        } for title in left
+    ]
+
+    right = [
+        {
+            "title": title,
+            "icon": icons.get(title),
+            "url": urls.get(title),
+        } for title in right
+    ]
+
     page = _st_navbar(
         left=left,
         right=right,
         default=default,
         base64_svg=base64_svg,
         logo_page=logo_page,
-        urls=urls,
-        icons=icons,
         styles=styles,
         css=css,
         key=key,
@@ -438,4 +452,7 @@ def st_navbar(
     if adjust:
         adjust_css(styles, options, key, get_path("templates"))
 
-    return page
+    if isinstance(page, dict):
+        return page["title"]
+    else:
+        return page
