@@ -12,16 +12,16 @@ jobs:
       uses: actions/setup-node@v3
       with:
           node-version: 20
-    - name: build streamlit-navigation-bar JS
-      run: |
-        cd streamlit_navigation_bar/frontend/
-        npm install
-        npm run build
     - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.x"
+    - name: build streamlit-navigation-bar JS
+      run: |
+        cd streamlit_navigation_bar/frontend/
+        npm install
+        npm run build
     - name: Install pypa/build
       run: >-
         python3 -m
