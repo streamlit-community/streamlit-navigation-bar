@@ -4,6 +4,7 @@ from streamlit_navigation_bar import st_navbar
 css = """
 span[data-text="Home"] > div {
     border: 1px solid red !important;
+    pointer-events: none;
 }
 """
 
