@@ -270,6 +270,7 @@ def st_navbar(
     options=True,
     adjust=True,
     on_change=None,
+    allow_reselect=False,
     key=None,
 ):
     """
@@ -357,6 +358,12 @@ def st_navbar(
 
         If set to ``False``, it will also disable all adjustments made by
         `options`, regardless of whether they are on or off.
+    allow_reselect : bool, default=False
+        By default clicking on the currently selected page will not do
+        anything.
+
+        If set to ``True``, this will invoke the on_change callback even
+        if the clicked page is currently selected.
     key : str or int, optional
         A string or integer to use as a unique key for the component. If this
         is omitted, a key will be generated for the widget based on its
@@ -439,22 +446,20 @@ def st_navbar(
         } for title in right
     ]
 
-    page = _st_navbar(
+    page, _ = _st_navbar(
         left=left,
         right=right,
-        default=default,
+        default=(default, None),
         base64_svg=base64_svg,
         logo_page=logo_page,
         styles=styles,
         css=css,
         on_change=on_change,
+        allow_reselect=allow_reselect,
         key=key,
     )
 
     if adjust:
         adjust_css(styles, options, key, get_path("templates"))
 
-    if isinstance(page, dict):
-        return page["title"]
-    else:
-        return page
+    return page

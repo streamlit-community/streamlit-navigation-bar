@@ -152,7 +152,8 @@ const onClicked = (page) => {
   const p = JSON.parse(JSON.stringify(page));
   if (p === props.args.logo_page || p.url[0] === "#") {
     activePage.value = p;
-    Streamlit.setComponentValue(p);
+    const time = props.args.allow_reselect ? Date.now() : null;
+    Streamlit.setComponentValue([p.title, time]);
   }
 }
 
