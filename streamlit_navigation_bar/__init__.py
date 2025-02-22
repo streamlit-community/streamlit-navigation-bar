@@ -83,6 +83,7 @@ def _prepare_options(options):
         "hide_nav": True,
         "fix_shadow": True,
         "use_padding": True,
+        "sidebar_under_navbar": True,
     }
     for option in available:
         if isinstance(options, dict) and option in options:

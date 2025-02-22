@@ -119,6 +119,11 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 {% if options["fix_shadow"] %}
 {% block fix_shadow %}{% endblock %}
 {% endif %}
+{% if options["sidebar_under_navbar"] %}
+section[data-testid="stSidebar"] {
+    margin-top: {{ ui.height }};
+}
+{% endif %}
 
 {# style the chat input #}
 div[data-testid="stBottom"] {
