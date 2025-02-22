@@ -214,6 +214,7 @@ def check_options(options):
             "hide_nav",
             "fix_shadow",
             "use_padding",
+            "sidebar_under_navbar",
         ]
         if option not in available:
             raise StreamlitAPIException(

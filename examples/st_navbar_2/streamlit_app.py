@@ -26,7 +26,7 @@ styles = {
     },
 }
 
-page = st_navbar(pages, styles=styles)
+page = st_navbar(pages, styles=styles, options={"sidebar_under_navbar": True})
 st.write(page)
 
 with st.sidebar:
