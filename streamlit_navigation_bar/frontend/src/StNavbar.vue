@@ -5,9 +5,7 @@
     href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   <component v-if="css" :is="'style'">
-  @scope {
       {{ css }}
-  }
   </component>
 
   <nav 
@@ -102,7 +100,7 @@
             @click="onClicked(page)"
           >
             <span
-              :data-text="page"
+              :data-text="page.title"
               :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
               :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
 	      class="navbar-span"

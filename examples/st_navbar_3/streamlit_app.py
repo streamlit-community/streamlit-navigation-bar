@@ -21,7 +21,7 @@ styles = {
         "padding-right": "14px",
     },
     "span": {
-        "color": "white",
+        "color": "white !important",
         "padding": "14px",
     },
     "active": {
@@ -31,6 +31,14 @@ styles = {
         "padding": "14px",
     }
 }
+
+css = """
+.navbar-text {
+  color: white; 
+  display: block;
+  text-align: center;
+}
+"""
 options = {
     "show_menu": False,
     "show_sidebar": False,
@@ -41,6 +49,7 @@ page = st_navbar(
     logo_path=logo_path,
     urls=urls,
     styles=styles,
+    css=css,
     options=options,
 )
 
