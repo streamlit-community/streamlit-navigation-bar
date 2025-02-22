@@ -2,7 +2,9 @@ import os
 import base64
 from importlib.metadata import version as _version
 
+from streamlit.navigation.page import StreamlitPage
 import streamlit as st
+
 import streamlit.components.v1 as components
 from jinja2 import FileSystemLoader, Environment
 
@@ -430,21 +432,25 @@ def st_navbar(
         icons = {}
     icons = {k: v.strip(":").split("/")[-1] for k, v in icons.items()}
 
-    left = [
-        {
-            "title": title,
-            "icon": icons.get(title),
-            "url": urls.get(title),
-        } for title in left
-    ]
+    page_objects = {}
 
-    right = [
-        {
-            "title": title,
-            "icon": icons.get(title),
-            "url": urls.get(title),
-        } for title in right
-    ]
+    def to_dict(page):
+        if isinstance(page, StreamlitPage):
+            page_objects[page.title] = page
+            return {
+                "title": page.title,
+                "icon": page.icon or None,
+                "url": ["#", "_self"],
+            }
+        else:
+            return {
+                "title": page,
+                "icon": icons.get(page),
+                "url": urls.get(page),
+            }
+
+    left = [to_dict(title) for title in left]
+    right = [to_dict(title) for title in right]
 
     page, _ = _st_navbar(
         left=left,
@@ -462,4 +468,9 @@ def st_navbar(
     if adjust:
         adjust_css(styles, options, key, get_path("templates"))
 
-    return page
+    if page in page_objects:
+        page = page_objects[page]
+        page._can_be_called = True
+        return page
+    else:
+        return page

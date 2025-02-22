@@ -1,4 +1,5 @@
 from streamlit.errors import StreamlitAPIException
+from streamlit.navigation.page import StreamlitPage as Page
 
 
 def _type_error(param, name, expected):
@@ -48,7 +49,7 @@ def check_pages(pages):
         )
 
     for page in pages:
-        if not isinstance(page, str):
+        if not isinstance(page, (str, Page)):
             i = pages.index(page)
             raise StreamlitAPIException(
                 "The pages parameter from st_navbar() received a list that "
