@@ -60,7 +60,7 @@ def test_screenshot(page: Page, index):
     i = index
     with run_streamlit(f"examples/st_navbar_{i}/streamlit_app.py"):
         page.goto(f"localhost:{PORT}")
-        page.set_viewport_size({"width": 2000, "height": 2000})
+        page.set_viewport_size({"width": 700, "height": 700})
         expect.set_options(timeout=5_000)
         sleep(1)
         page.screenshot(path=f"/tmp/screenshot_{i}.png")
