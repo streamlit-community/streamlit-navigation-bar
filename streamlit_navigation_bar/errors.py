@@ -66,9 +66,7 @@ def check_selected(selected, logo_page, logo_path, pages):
         return
 
     if not isinstance(selected, str):
-        raise StreamlitAPIException(
-            _type_error(selected, "selected", ["str", "None"])
-        )
+        raise StreamlitAPIException(_type_error(selected, "selected", ["str", "None"]))
 
     if selected not in pages:
         if selected != logo_page:
@@ -112,9 +110,7 @@ def check_urls(urls, pages):
         return
 
     if not isinstance(urls, dict):
-        raise StreamlitAPIException(
-            _type_error(urls, "urls", ["dict", "None"])
-        )
+        raise StreamlitAPIException(_type_error(urls, "urls", ["dict", "None"]))
 
     if len(urls) > len(pages):
         raise StreamlitAPIException(
@@ -127,9 +123,7 @@ def check_urls(urls, pages):
 
     for page, url in urls.items():
         if not isinstance(page, str):
-            raise StreamlitAPIException(
-                _dict_error(page, "urls", "key", "str")
-            )
+            raise StreamlitAPIException(_dict_error(page, "urls", "key", "str"))
 
         if page not in pages:
             raise StreamlitAPIException(
@@ -141,9 +135,7 @@ def check_urls(urls, pages):
             )
 
         if not isinstance(url, str):
-            raise StreamlitAPIException(
-                _dict_error(url, "urls", "value", "str")
-            )
+            raise StreamlitAPIException(_dict_error(url, "urls", "value", "str"))
 
 
 def check_styles(styles):
@@ -152,19 +144,13 @@ def check_styles(styles):
         return
 
     if not isinstance(styles, dict):
-        raise StreamlitAPIException(
-            _type_error(styles, "styles", ["dict", "None"])
-        )
+        raise StreamlitAPIException(_type_error(styles, "styles", ["dict", "None"]))
 
     for target, style in styles.items():
         if not isinstance(target, str):
-            raise StreamlitAPIException(
-                _dict_error(target, "styles", "key", "dict")
-            )
+            raise StreamlitAPIException(_dict_error(target, "styles", "key", "dict"))
 
-        targets = [
-            "nav", "div", "ul", "li", "a", "img", "span", "active", "hover"
-        ]
+        targets = ["nav", "div", "ul", "li", "a", "img", "span", "active", "hover"]
         if target not in targets:
             raise StreamlitAPIException(
                 "The styles parameter from st_navbar() received a dictionary "
@@ -176,9 +162,7 @@ def check_styles(styles):
             )
 
         if not isinstance(style, dict):
-            raise StreamlitAPIException(
-                _dict_error(style, "styles", "value", "dict")
-            )
+            raise StreamlitAPIException(_dict_error(style, "styles", "value", "dict"))
 
         for css_property, value in style.items():
             if not isinstance(css_property, str):
@@ -198,15 +182,11 @@ def check_options(options):
         return
 
     if not isinstance(options, dict):
-        raise StreamlitAPIException(
-            _type_error(options, "options", ["bool", "dict"])
-        )
+        raise StreamlitAPIException(_type_error(options, "options", ["bool", "dict"]))
 
     for option, toggle in options.items():
         if not isinstance(option, str):
-            raise StreamlitAPIException(
-                _dict_error(option, "options", "key", "bool")
-            )
+            raise StreamlitAPIException(_dict_error(option, "options", "key", "bool"))
 
         available = [
             "show_menu",
@@ -227,22 +207,16 @@ def check_options(options):
             )
 
         if not isinstance(toggle, bool):
-            raise StreamlitAPIException(
-                _dict_error(toggle, "options", "value", "bool")
-            )
+            raise StreamlitAPIException(_dict_error(toggle, "options", "value", "bool"))
 
 
 def check_adjust(adjust):
     """Check if `adjust` has a valid type."""
     if not isinstance(adjust, bool):
-        raise StreamlitAPIException(
-            _type_error(adjust, "adjust", ["bool"])
-        )
+        raise StreamlitAPIException(_type_error(adjust, "adjust", ["bool"]))
 
 
 def check_key(key):
     """Check if `key` has a valid type."""
     if not isinstance(key, str) and not isinstance(key, int) and key is not None:
-        raise StreamlitAPIException(
-            _type_error(key, "key", ["str", "int", "None"])
-        )
+        raise StreamlitAPIException(_type_error(key, "key", ["str", "int", "None"]))

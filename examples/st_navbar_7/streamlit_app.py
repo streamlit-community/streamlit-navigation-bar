@@ -8,8 +8,5 @@ span[data-text="Home"] > div {
 }
 """
 
-page = st_navbar(
-    ["Home", "Documentation", "Examples", "Community", "About"],
-    css=css
-)
+page = st_navbar(["Home", "Documentation", "Examples", "Community", "About"], css=css)
 st.write(page)

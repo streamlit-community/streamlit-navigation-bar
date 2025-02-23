@@ -46,14 +46,16 @@ def run_streamlit(example_app):
         finally:
             p.kill()
 
-def mse(img1, img2):
-   h, w, _ = img1.shape
-   diff = cv2.subtract(img1, img2)
-   err = np.sum(diff**2)
-   mse = err/(float(h*w))
-   return mse
 
-@pytest.mark.parametrize("index", list(range(1,9)))
+def mse(img1, img2):
+    h, w, _ = img1.shape
+    diff = cv2.subtract(img1, img2)
+    err = np.sum(diff**2)
+    mse = err / (float(h * w))
+    return mse
+
+
+@pytest.mark.parametrize("index", list(range(1, 9)))
 def test_screenshot(page: Page, index):
     i = index
     with run_streamlit(f"examples/st_navbar_{i}/streamlit_app.py"):
@@ -68,9 +70,6 @@ def test_screenshot(page: Page, index):
             assert mse(current, original) == 0.0
         else:
             shutil.copy(
-                f"/tmp/screenshot_{i}.png",
-                f"examples/screenshots/screenshot_{i}.png"
+                f"/tmp/screenshot_{i}.png", f"examples/screenshots/screenshot_{i}.png"
             )
             raise Exception("no screenshot made")
-
-        

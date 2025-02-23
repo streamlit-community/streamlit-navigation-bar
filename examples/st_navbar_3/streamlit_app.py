@@ -29,7 +29,7 @@ styles = {
         "color": "var(--text-color)",
         "font-weight": "normal",
         "padding": "14px",
-    }
+    },
 }
 
 css = """

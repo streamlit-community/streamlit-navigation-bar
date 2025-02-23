@@ -23,16 +23,10 @@ styles = {
     },
 }
 
-icons = {
-    "Documentation": ":material/add_home_work:"
-}
+icons = {"Documentation": ":material/add_home_work:"}
 
 page = st_navbar(
-    ["Home",
-     "Documentation",
-     "Examples",
-     "Community",
-     "About"],
+    ["Home", "Documentation", "Examples", "Community", "About"],
     styles=styles,
     icons=icons,
 )

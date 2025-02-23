@@ -22,11 +22,7 @@ styles = {
     },
 }
 page = st_navbar(
-    ["Home",
-     "Documentation",
-     "Examples",
-     "Community",
-     "About"],
+    ["Home", "Documentation", "Examples", "Community", "About"],
     styles=styles,
 )
 

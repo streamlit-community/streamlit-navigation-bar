@@ -2,7 +2,7 @@ from streamlit.config import get_config_options
 from streamlit_theme import st_theme
 
 
-class MatchNavbar():
+class MatchNavbar:
     """
     Represent a user interface object with a style that matches the navbar.
 
@@ -83,7 +83,6 @@ class MatchNavbar():
 
         # Get the value for the var in `styles`, then, for the `theme_config`.
         for theme_config in theme_configs:
-
             # Return the CSS value from `theme`.
             if theme is not None and theme_config in theme:
                 return theme[theme_config]
@@ -93,7 +92,7 @@ class MatchNavbar():
                 value = get_config_options()[f"theme.{theme_config}"].value
                 if value is not None:
                     return value
-        
+
         # Not found.
         return None
 
