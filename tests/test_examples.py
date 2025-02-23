@@ -62,7 +62,7 @@ def test_screenshot(page: Page, index):
         page.goto(f"localhost:{PORT}")
         page.set_viewport_size({"width": 700, "height": 700})
         expect.set_options(timeout=5_000)
-        sleep(1)
+        sleep(3)
         page.screenshot(path=f"/tmp/screenshot_{i}.png")
         current = cv2.imread(f"/tmp/screenshot_{i}.png")
         if os.path.exists(f"examples/screenshots/screenshot_{i}.png"):
