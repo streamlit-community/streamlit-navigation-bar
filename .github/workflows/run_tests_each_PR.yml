@@ -41,7 +41,7 @@ jobs:
       - name: Install python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest pytest-playwright
+          pip install flake8 pytest pytest-playwright pytest-rerunfailures
           if [ -f tests/requirements.txt ]; then pip install -r tests/requirements.txt; fi
           pip install -e .
       - uses: pre-commit/action@v2.0.3
