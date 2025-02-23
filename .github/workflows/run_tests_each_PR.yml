@@ -1,0 +1,69 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Run tests each PR
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: build streamlit-navigation-bar JS
+        run: |
+          cd streamlit_navigation_bar/frontend/
+          npm install
+          npm run build
+      - name: Install pypa/build
+        run: >-
+          python3 -m
+          pip install
+          build
+          --user
+      - name: Build a binary wheel and a source tarball
+        run: python3 -m build
+      - name: Install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest pytest-playwright
+          if [ -f tests/requirements.txt ]; then pip install -r tests/requirements.txt; fi
+          pip install -e .
+      - uses: pre-commit/action@v2.0.3
+      - name: Install playwright dependencies
+        run: |
+          playwright install --with-deps
+      - name: Install annotate-failures-plugin
+        run: pip install pytest-github-actions-annotate-failures
+
+      - name: Test with pytest and retry flaky tests up to 3 times
+        run: |
+          pytest --browser chromium -s --reruns 3 --junit-xml=test-results.xml
+
+      - name: Surface failing tests
+        if: always()
+        uses: pmeier/pytest-results-action@main
+        with:
+          path: test-results.xml
+          fail-on-empty: false
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: screenshots
+          path: screenshot*.png
