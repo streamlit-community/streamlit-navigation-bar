@@ -61,8 +61,8 @@ def check_pages(pages):
 
 def check_selected(selected, logo_page, logo_path, pages):
     """Check if `selected` has a valid type and value."""
-    sentinel = object()
-    if selected is None or type(selected) == object:
+    object()
+    if selected is None or type(selected) is object:
         return
 
     if not isinstance(selected, str):

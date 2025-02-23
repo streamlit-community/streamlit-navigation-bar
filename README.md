@@ -34,7 +34,7 @@ page = st_navbar(["Home", "Documentation", "Examples", "Community", "About"])
 st.write(page)
 ```
 [![Example 1](https://github.com/gabrieltempass/streamlit-navigation-bar/raw/main/images/st_navbar_1.gif)](https://st-navbar-1.streamlit.app/)
-[**[App]**](https://st-navbar-1.streamlit.app/) 
+[**[App]**](https://st-navbar-1.streamlit.app/)
 [**[Source]**](https://github.com/gabrieltempass/streamlit-navigation-bar/blob/main/examples/st_navbar_1/streamlit_app.py)
 
 Jump to the [examples gallery](https://github.com/gabrieltempass/streamlit-navigation-bar/wiki/Examples) to see more demos of what the navbar is capable of.

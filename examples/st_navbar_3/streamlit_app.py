@@ -34,7 +34,7 @@ styles = {
 
 css = """
 .navbar-text {
-  color: white; 
+  color: white;
   display: block;
   text-align: center;
 }

@@ -89,7 +89,7 @@ section.main {
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     /* Leave space to the right that is equal to the top and bottom */
     left: 0.3125rem;
-    
+
     /* Align the button vertically to the navbar pages */
     top: calc(({{ ui.height }} - 2rem) / 2);
 }

@@ -8,10 +8,10 @@
       {{ css }}
   </component>
 
-  <nav 
+  <nav
       class="navbar"
       :style="parseStyles(styles['nav'])">
-    <div 
+    <div
       class="navbar-left navbar-group"
       :style="parseStyles(styles['div'])">
       <ul :style="parseStyles(styles['ul'])"
@@ -65,12 +65,12 @@
 	      class="navbar-span"
 	      style="display: inline-block;"
             >
-              <div 
+              <div
                 v-if="page.icon"
                 class="material-icons navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
-                {{ page.icon }} 
+                {{ page.icon }}
 	      </div>
               <div class="navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
 	        {{ page.title }}
@@ -80,7 +80,7 @@
         </li>
       </ul>
     </div>
-    <div 
+    <div
       v-if="args.right.length"
       class="navbar-right navbar-group"
       :style="parseStyles(styles['div'])">
@@ -106,12 +106,12 @@
 	      class="navbar-span"
 	      style="display: inline-block"
             >
-              <div 
+              <div
                 v-if="page.icon"
                 class="material-icons navbar-icon"
                 style="display: inline; vertical-align: middle"
               >
-                {{ page.icon }} 
+                {{ page.icon }}
               </div>
 	      <div class="navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
               {{ page.title }}

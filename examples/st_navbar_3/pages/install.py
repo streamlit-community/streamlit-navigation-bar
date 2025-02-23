@@ -5,7 +5,7 @@ def show_install():
     st.header("Install")
     st.write(
         """
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id diam 
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id diam
         pharetra, dapibus est fermentum, laoreet diam. Integer vitae consequat augue:
 
         * Lorem ipsum dolor sit amet, consectetur adipiscing elit.
