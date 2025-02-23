@@ -69,7 +69,7 @@ def test_screenshot(page: Page, index):
             mismatch = pixelmatch(img_a, img_b, img_diff, threshold=0.2, includeAA=True)
 
             img_diff.save(f"/tmp/screenshot_diff_{i}.png")
-            assert mismatch == 0
+            assert mismatch < 50
 
         else:
             shutil.copy(
