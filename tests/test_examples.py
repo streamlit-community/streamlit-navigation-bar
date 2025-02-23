@@ -49,7 +49,7 @@ def run_streamlit(example_app):
             p.kill()
 
 
-@pytest.mark.parametrize("index", list(range(1, 9)))
+@pytest.mark.parametrize("index", list(range(1, 10)))
 def test_screenshot(page: Page, index):
     i = index
     with run_streamlit(f"examples/st_navbar_{i}/streamlit_app.py"):
