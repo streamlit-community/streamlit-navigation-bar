@@ -66,4 +66,4 @@ jobs:
         if: failure()
         with:
           name: screenshots
-          path: /tmp/screenshot_*.png
+          path: /tmp/screenshot_*_*.png
