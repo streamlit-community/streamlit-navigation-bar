@@ -148,7 +148,11 @@ watch(selected, () => {
 const onClicked = (page) => {
   /* remove the object proxy, so we can return it via streamlit */
   const p = JSON.parse(JSON.stringify(page));
-  if (p === props.args.logo_page || p.url[0] === "#") {
+  if (p === props.args.logo_page) {
+    activePage.value = p;
+    const time = props.args.allow_reselect ? Date.now() : null;
+    Streamlit.setComponentValue([p, time]);
+  } else if (p.url[0] === "#") {
     activePage.value = p;
     const time = props.args.allow_reselect ? Date.now() : null;
     Streamlit.setComponentValue([p.title, time]);
