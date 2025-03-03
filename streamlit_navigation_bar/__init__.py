@@ -2,12 +2,17 @@ import os
 import base64
 from importlib.metadata import version as _version
 
+from typing import TYPE_CHECKING, Callable, Union
+
+from typing_extensions import TypeAlias
+
 from streamlit.navigation.page import StreamlitPage
 import streamlit as st
 
 import streamlit.components.v1 as components
 from jinja2 import FileSystemLoader, Environment
 
+from pathlib import Path
 from streamlit_navigation_bar.match_navbar import MatchNavbar
 from streamlit_navigation_bar.errors import (
     check_pages,
@@ -21,6 +26,21 @@ from streamlit_navigation_bar.errors import (
     check_key,
 )
 
+# These are needed for setup_navigation
+from streamlit.runtime.pages_manager import PagesManager
+from streamlit.errors import StreamlitAPIException
+from streamlit.proto.ForwardMsg_pb2 import ForwardMsg
+from streamlit.proto.Navigation_pb2 import Navigation as NavigationProto
+
+from streamlit.runtime.scriptrunner_utils.script_run_context import (
+    get_script_run_ctx,
+)
+
+if TYPE_CHECKING:
+    from streamlit.source_util import PageHash, PageInfo
+
+SectionHeader: TypeAlias = str
+PageType: TypeAlias = Union[str, Path, Callable[[], None], StreamlitPage]
 
 _RELEASE = "STREAMLIT_COMMUNITY_DEVELOPMENT" not in os.environ
 
@@ -274,6 +294,7 @@ def st_navbar(
     adjust=True,
     on_change=None,
     allow_reselect=False,
+    set_path=False,
     key=None,
 ):
     """
@@ -419,9 +440,11 @@ def st_navbar(
         if logo_path is not None:
             default = logo_page
         else:
-            default = pages[0]
+            default = pages[0] if isinstance(pages[0], str) else pages[0].url_path
     else:
         default = selected
+
+    default = default.lower()
 
     base64_svg = None
     if logo_path is not None:
@@ -434,26 +457,90 @@ def st_navbar(
     icons = {k: v.strip(":").split("/")[-1] for k, v in icons.items()}
 
     page_objects = {}
+    page_list = []
 
+    # disable regular mpa uses
+    PagesManager.uses_pages_directory = False
+
+    if logo_path:
+        st_page = st.Page(
+            lambda: None,
+            title=logo_page,
+            icon=icons.get(logo_page),
+            url_path=logo_page.lower(),
+        )
+        page_list.append(st_page)
+
+    # TODO: code here is weird
     def to_dict(page):
         if isinstance(page, StreamlitPage):
-            page_objects[page.title] = page
+            page._default = False
+            page_objects[page.url_path] = page
+            page_list.append(page)
             return {
                 "title": page.title,
                 "icon": page.icon or None,
-                "url": ["#", "_self"],
+                "url": urls.get(page.title, ["#", "_self"]),
             }
         else:
+            st_page = st.Page(
+                lambda: None,
+                title=page,
+                url_path=page.lower(),
+            )
+            page_list.append(st_page)
             return {
                 "title": page,
                 "icon": icons.get(page),
-                "url": urls.get(page),
+                "url": urls.get(page, ["#", "_self"]),
             }
 
     left = [to_dict(title) for title in left]
     right = [to_dict(title) for title in right]
 
-    page, _ = _st_navbar(
+    default_page = page_list[0]
+    default_page_original_key = default_page.url_path
+    default_page._default = True
+
+    # Prepare frontend navigation
+    pagehash_to_pageinfo: dict[PageHash, PageInfo] = {}
+    for page in page_list:
+        if isinstance(page._page, Path):
+            script_path = str(page._page)
+        else:
+            script_path = ""
+
+        script_hash = page._script_hash
+        if script_hash in pagehash_to_pageinfo:
+            # The page script hash is soley based on the url path
+            # So duplicate page script hashes are due to duplicate url paths
+            raise StreamlitAPIException(
+                f"Multiple Pages specified with URL pathname {page.url_path}. "
+                "URL pathnames must be unique. The url pathname may be "
+                "inferred from the filename, callable name, or title."
+            )
+
+        pagehash_to_pageinfo[script_hash] = {
+            "page_script_hash": script_hash,
+            "page_name": page.title,
+            "icon": page.icon,
+            "script_path": script_path,
+            "url_pathname": page.url_path,
+        }
+
+    ctx = get_script_run_ctx()
+    ctx.pages_manager.set_pages(pagehash_to_pageinfo)
+
+    # This allows deep links
+    found_page = ctx.pages_manager.get_page_script(
+        fallback_page_hash=default_page._script_hash
+    )
+
+    if found_page and found_page["page_script_hash"] != page_list[0]._script_hash:
+        default = found_page["url_pathname"]
+
+    # Now run our own component
+    page_name, _ = _st_navbar(
         left=left,
         right=right,
         default=(default, None),
@@ -465,13 +552,44 @@ def st_navbar(
         allow_reselect=allow_reselect,
         key=key,
     )
-
     if adjust:
         adjust_css(styles, options, key, get_path("templates"))
 
-    if page in page_objects:
-        page = page_objects[page]
-        page._can_be_called = True
-        return page
+    page_name = page_name.lower()
+    if page_name == default_page_original_key:
+        page_to_return = default_page
     else:
-        return page
+        page_to_return = next(_ for _ in page_list if _.url_path == page_name)
+    page_to_return._can_be_called = True
+
+    msg = ForwardMsg()
+    msg.navigation.position = NavigationProto.Position.HIDDEN
+    msg.navigation.expanded = False
+
+    msg.navigation.sections[:] = [""]
+    for page in page_list:
+        p = msg.navigation.app_pages.add()
+        p.page_script_hash = page._script_hash
+        p.page_name = page.title
+        p.icon = page.icon
+        p.is_default = page._default
+        p.section_header = ""
+        p.url_pathname = page.url_path
+
+    if set_path:
+        msg.navigation.page_script_hash = page_to_return._script_hash
+    else:
+        msg.navigation.page_script_hash = default_page._script_hash
+
+    # Set the current page script hash to the page that is going to be executed
+    ctx.set_mpa_v2_page(page_to_return._script_hash)
+
+    # This will either navigation or yield if the page is not found
+    ctx.enqueue(msg)
+
+    # For backwards compatibility
+    # if the user passed a string iso a page we will return the title
+    if page_name in page_objects:
+        return page_to_return
+    else:
+        return page_to_return.title
