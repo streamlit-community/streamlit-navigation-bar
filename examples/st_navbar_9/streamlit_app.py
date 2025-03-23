@@ -13,6 +13,7 @@ page = st_navbar(
     ["Home", "Documentation", "Examples", "Account", "About"],
     on_change=reset_state,
     allow_reselect=True,
+    links=["https://fonts.googleapis.com/icon?family=Material+Icons"],
 )
 
 st.write(page)
