@@ -68,8 +68,8 @@
           >
             <span
               :data-text="page.title"
-              :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
-              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+              :class="[{active: page.key === activePage}, hoverColor, hoverBgColor]"
+              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page.key === activePage)"
 	      class="navbar-span"
 	      style="display: inline-block;"
             >
@@ -109,8 +109,8 @@
           >
             <span
               :data-text="page.title"
-              :class="[{active: page === activePage}, hoverColor, hoverBgColor]"
-              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page === activePage)"
+              :class="[{active: page.key === activePage}, hoverColor, hoverBgColor]"
+              :style="parseStyles(styles['span']) + parseStyles(styles['active'], page.key === activePage)"
 	      class="navbar-span"
 	      style="display: inline-block"
             >
@@ -142,14 +142,18 @@ import { useStreamlit } from "./streamlit"
 // "args".
 const props = defineProps(["args"])
 // Fetch changes to the default page, made by a callback function.
-const selected = computed(() => props.args.default)
-const activePage = ref(props.args.default)
+const selected = computed(() => props.args.default[0])
+const activePage = ref(props.args.default[0])
+console.log("selected", props.args.default)
+console.log("left", props.args.left)
+console.log("right", props.args.right)
 
 useStreamlit()  // Lifecycle hooks for automatic Streamlit resize.
 
 watch(selected, () => {
     // Executed when `selected` changes.
     activePage.value = selected.value
+    console.log("active page", activePage)
   }
 )
 
@@ -161,11 +165,12 @@ const onClicked = (page) => {
     const time = props.args.allow_reselect ? Date.now() : null;
     Streamlit.setComponentValue([p, time]);
   } else if (p.url[0] === "#") {
-    activePage.value = p;
+    activePage.value = p.key;
     const time = props.args.allow_reselect ? Date.now() : null;
     Streamlit.setComponentValue([p.title, time]);
   }
 }
+
 
 const styles = ref(props.args.styles || {})
 const css = ref(props.args.css)

@@ -12,7 +12,7 @@ page = st_navbar(
     ["Home", "Documentation", "Examples", "Account", about],
     allow_reselect=True,
     options={
-        "use_padding": False,
+        "use_padding": True,
     },
     key="navbar",
 )
