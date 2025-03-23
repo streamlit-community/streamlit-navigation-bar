@@ -491,6 +491,7 @@ def st_navbar(
                 "title": page.title,
                 "icon": page.icon or None,
                 "url": urls.get(page.title, ["#", "_self"]),
+                "key": page.url_path,
             }
         else:
             st_page = st.Page(
@@ -503,12 +504,13 @@ def st_navbar(
                 "title": page,
                 "icon": icons.get(page),
                 "url": urls.get(page, ["#", "_self"]),
+                "key": page.lower(),
             }
 
     left = [to_dict(title) for title in left]
     right = [to_dict(title) for title in right]
 
-    default_page = page_list[0]
+    default_page = next(page for page in page_list if default == page.url_path)
     default_page_original_key = default_page.url_path
     default_page._default = True
 
@@ -546,7 +548,7 @@ def st_navbar(
         fallback_page_hash=default_page._script_hash
     )
 
-    if found_page and found_page["page_script_hash"] != page_list[0]._script_hash:
+    if found_page and found_page["page_script_hash"] != default_page._script_hash:
         default = found_page["url_pathname"]
 
     links = links or []
@@ -555,9 +557,11 @@ def st_navbar(
     page_name, _ = _st_navbar(
         left=left,
         right=right,
+        # This is required for the first call
+        # to ensure we return two values
         default=(default, None),
         base64_svg=base64_svg,
-        logo_page=logo_page,
+        logo_page=logo_page.lower(),
         styles=styles,
         css=css,
         on_change=on_change,
