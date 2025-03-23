@@ -295,6 +295,7 @@ def st_navbar(
     on_change=None,
     allow_reselect=False,
     set_path=False,
+    links=None,
     key=None,
 ):
     """
@@ -388,6 +389,15 @@ def st_navbar(
 
         If set to ``True``, this will invoke the on_change callback even
         if the clicked page is currently selected.
+    set_path : bool, default=False
+        If set to ``True``, selecting a page will also update the browser URL.
+
+        This option makes the navigation bar behave more like streamlit's
+        native navigation component. It does cause brief flicker in the
+        navigation bar for each change.
+    links : list
+        A list of stylesheets to be included.
+        This can be used to include new icons.
     key : str or int, optional
         A string or integer to use as a unique key for the component. If this
         is omitted, a key will be generated for the widget based on its
@@ -539,6 +549,8 @@ def st_navbar(
     if found_page and found_page["page_script_hash"] != page_list[0]._script_hash:
         default = found_page["url_pathname"]
 
+    links = links or []
+
     # Now run our own component
     page_name, _ = _st_navbar(
         left=left,
@@ -550,6 +562,7 @@ def st_navbar(
         css=css,
         on_change=on_change,
         allow_reselect=allow_reselect,
+        links=links,
         key=key,
     )
     if adjust:

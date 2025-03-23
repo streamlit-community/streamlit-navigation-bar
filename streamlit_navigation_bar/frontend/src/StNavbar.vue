@@ -2,7 +2,15 @@
   <section>
   <link rel="stylesheet"
     type="text/css"
-    href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+
+  <link
+    v-for="link in args.links"
+    rel="stylesheet"
+    type="text/css"
+    :href="link"
+  />
 
   <component v-if="css" :is="'style'">
       {{ css }}
