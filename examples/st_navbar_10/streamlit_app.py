@@ -8,7 +8,15 @@ import pages as pg
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
-pages = ["Install", "User Guide", "API", "Examples", "Community", "GitHub"]
+pages = [
+    st.Page(pg.show_install, title="Install"),
+    st.Page(pg.show_user_guide, title="User Guide"),
+    st.Page(pg.show_api, title="API"),
+    st.Page(pg.show_examples, title="Examples"),
+    st.Page(pg.show_community, title="Community"),
+    "GitHub",
+]
+
 parent_dir = os.path.dirname(os.path.abspath(__file__))
 logo_path = os.path.join(parent_dir, "cubes.svg")
 urls = {"GitHub": "https://github.com/gabrieltempass/streamlit-navigation-bar"}
@@ -63,15 +71,7 @@ page = st_navbar(
     css=css,
     options=options,
 )
-
-functions = {
-    "Home": pg.show_home,
-    "Install": pg.show_install,
-    "User Guide": pg.show_user_guide,
-    "API": pg.show_api,
-    "Examples": pg.show_examples,
-    "Community": pg.show_community,
-}
-go_to = functions.get(page)
-if go_to:
-    go_to()
+if page == "Home":
+    pg.show_home()
+else:
+    page.run()

@@ -167,7 +167,7 @@ const onClicked = (page) => {
   } else if (p.url[0] === "#") {
     activePage.value = p.key;
     const time = props.args.allow_reselect ? Date.now() : null;
-    Streamlit.setComponentValue([p.title, time]);
+    Streamlit.setComponentValue([p.key, time]);
   }
 }
 
