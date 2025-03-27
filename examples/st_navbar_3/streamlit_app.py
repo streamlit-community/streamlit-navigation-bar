@@ -32,24 +32,6 @@ styles = {
     },
 }
 
-css = """
-.navbar-text {
-  color: white;
-  display: block;
-  text-align: center;
-}
-.navbar-span {
-    padding: 14px;
-}
-span.active > .navbar-text {
-    background-color: white;
-    color: black;
-    font-weight: normal;
-}
-
-"""
-
-
 options = {
     "show_menu": False,
     "show_sidebar": False,
@@ -60,7 +42,6 @@ page = st_navbar(
     logo_path=logo_path,
     urls=urls,
     styles=styles,
-    css=css,
     options=options,
 )
 

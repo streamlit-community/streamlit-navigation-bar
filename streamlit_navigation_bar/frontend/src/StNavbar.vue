@@ -121,7 +121,8 @@
               >
                 {{ page.icon }}
               </div>
-	      <div class="navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em">
+	      <div class="navbar-text" style="display: inline; vertical-align: middle; margin-left: 0.35em"
+              >
               {{ page.title }}
               </div>
             </span>
@@ -253,8 +254,11 @@ img {
   height: 1.875rem;
 }
 
-div.navbar-text {
+span.navbar-span {
   color: var(--text-color);
+}
+
+div.navbar-text {
   display: block;
   text-align: center;
 }
