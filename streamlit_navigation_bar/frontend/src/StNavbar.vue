@@ -266,19 +266,7 @@ div.navbar-text {
 /* Special class that acts as an :active pseudo-class for <span> */
 .active {
   color: var(--text-color);
-  font-weight: bold;
-}
-
-/* Stop the page names from moving when the active <span> is set to bold */
-span.navbar-text::before {
-  content: attr(data-text);
-  display: flex;
-  font-weight: bold;
-  height: 0;
-  overflow: hidden;
-  pointer-events: none;
-  user-select: none;
-  visibility: hidden;
+  -webkit-text-stroke-width: 0.5px;
 }
 
 /* Both classes with :hover direct the style to <span> */
