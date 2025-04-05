@@ -69,3 +69,17 @@ def test_pointer_events_on_menu(page: Page, index):
         page.get_by_test_id("stBaseButton-headerNoPadding").click()
         expect(page.get_by_text("About")).to_be_visible()
         expect(page.get_by_text("Record a screencast")).to_be_visible()
+
+
+@pytest.mark.parametrize("index", [2])
+def test_pointer_events_on_menu_wide_mode(page: Page, index):
+    i = index
+    with run_streamlit(f"examples/st_navbar_{i}/streamlit_app.py"):
+        page.goto(f"localhost:{PORT}")
+        page.set_viewport_size({"width": 1000, "height": 700})
+        expect.set_options(timeout=5_000)
+        sleep(1)
+
+        page.get_by_test_id("stBaseButton-headerNoPadding").click()
+        expect(page.get_by_text("About")).to_be_visible()
+        expect(page.get_by_text("Record a screencast")).to_be_visible()
