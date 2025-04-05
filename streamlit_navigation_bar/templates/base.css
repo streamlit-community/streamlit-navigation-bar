@@ -64,7 +64,7 @@ div[data-testid="stAppViewContainer"] {
     pointer-events: none;
 }
 div[data-testid="stMainBlockContainer"] {
-    pointer-events: auto;
+    pointer-events: none;
 }
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     pointer-events: auto;
@@ -76,11 +76,16 @@ div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"
 section[data-testid="stSidebar"] {
     pointer-events: auto;
 }
-section.main {
+section.stMain {
     pointer-events: auto;
     position: relative;
     top: {{ ui.height }};
 }
+
+section.stMain div.stVerticalBlock {
+    pointer-events: auto;
+}
+
 
 {# style the sidebar button #}
 {% if not options["show_sidebar"] %}
