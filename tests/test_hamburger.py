@@ -80,6 +80,8 @@ def test_pointer_events_on_menu_wide_mode(page: Page, index):
         expect.set_options(timeout=5_000)
         sleep(1)
 
-        page.get_by_test_id("stBaseButton-headerNoPadding").click()
+        page.get_by_test_id("stMainMenu").get_by_test_id(
+            "stBaseButton-headerNoPadding"
+        ).click()
         expect(page.get_by_text("About")).to_be_visible()
         expect(page.get_by_text("Record a screencast")).to_be_visible()
