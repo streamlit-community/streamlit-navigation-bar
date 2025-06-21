@@ -510,7 +510,6 @@ def st_navbar(
     left = [to_dict(title) for title in left]
     right = [to_dict(title) for title in right]
 
-    print(default, page_list)
     default_page = next(page for page in page_list if default == page.url_path)
     default_page_original_key = default_page.url_path
     default_page._default = True
@@ -574,7 +573,6 @@ def st_navbar(
         adjust_css(styles, options, key, get_path("templates"))
 
     page_name = page_name.lower()
-    print("1", page_name)
     if page_name == default_page_original_key:
         page_to_return = default_page
     else:
