@@ -44,7 +44,7 @@ jobs:
           pip install flake8 pytest pytest-playwright pytest-rerunfailures
           if [ -f tests/requirements.txt ]; then pip install -r tests/requirements.txt; fi
           pip install -e .
-      - uses: pre-commit/action@v2.0.3
+
       - name: Install playwright dependencies
         run: |
           playwright install --with-deps

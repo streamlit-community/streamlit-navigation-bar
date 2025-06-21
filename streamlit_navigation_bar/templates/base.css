@@ -20,6 +20,7 @@ header[data-testid="stHeader"] {
 
     /* Match navbar's height, e.g. for when `margin` is `True` */
     height: {{ ui.height }};
+    min-height: {{ ui.height }};
 
     /* Match navbar's background color, e.g. for when `margin` is `True` */
     background-color: {{ ui.bg_color }};
@@ -38,7 +39,7 @@ div[data-testid="stAppViewBlockContainer"] {
 {% endif %}
 div[data-testid="stToolbar"] {
     /* Align the button vertically to the navbar pages */
-    top: calc(({{ ui.height }} - 2rem) / 2);
+    /* top: calc(({{ ui.height }} - 2rem) / 2); */
 
     /* Leave space to the left that is equal to the top and bottom */
     right: 0.3125rem;
@@ -47,6 +48,9 @@ div[class="stStatusWidget"] {
     visibility: hidden;
 }
 div[class="stDeployButton"] {
+    visibility: hidden;
+}
+div[class="stAppDeployButton"] {
     visibility: hidden;
 }
 span[data-testid="stMainMenu"] path:nth-of-type(2) {
@@ -61,10 +65,11 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
 
 {# make the menu button clickable #}
 div[data-testid="stAppViewContainer"] {
-    pointer-events: none;
+    pointer-events: auto;
 }
 div[data-testid="stMainBlockContainer"] {
     pointer-events: none;
+    padding-top: 5rem;
 }
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     pointer-events: auto;
