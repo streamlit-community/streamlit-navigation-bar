@@ -20,6 +20,7 @@ header[data-testid="stHeader"] {
 
     /* Match navbar's height, e.g. for when `margin` is `True` */
     height: {{ ui.height }};
+    min-height: {{ ui.height }};
 
     /* Match navbar's background color, e.g. for when `margin` is `True` */
     background-color: {{ ui.bg_color }};
