@@ -7,13 +7,15 @@ iframe[title="streamlit_navigation_bar.st_navbar"] {
     top: 0px;
     left: 0px;
     {% if margin %}
-    width: calc(100% - 5.125rem);
-    margin-left: 2.5625rem;
-    margin-right: 2.5625rem;
+    width: calc(100% - 6.8rem);
+    margin-left: 3.4rem;
+    margin-right: 3.4rem;
     {% else %}
     width: 100%;
     {% endif %}
 }
+
+
 header[data-testid="stHeader"] {
     /* So that the navbar does not briefly disappear when switching pages */
     z-index: 0;
@@ -29,6 +31,11 @@ div[data-testid="stAppViewBlockContainer"] {
     /* Match Streamlit's default spacing after the body */
     margin-bottom: calc(5.875rem + {{ ui.height }});
 }
+section.stMain {
+    pointer-events: auto;
+    position: relative;
+    top: {{ ui.height }};
+}
 #stDecoration {
     visibility: hidden;
 }
@@ -42,7 +49,7 @@ div[data-testid="stToolbar"] {
     /* top: calc(({{ ui.height }} - 2rem) / 2); */
 
     /* Leave space to the left that is equal to the top and bottom */
-    right: 0.3125rem;
+    right: 0.05rem;
 }
 div[class="stStatusWidget"] {
     visibility: hidden;
@@ -53,6 +60,7 @@ div[class="stDeployButton"] {
 div[class="stAppDeployButton"] {
     visibility: hidden;
 }
+
 span[data-testid="stMainMenu"] path:nth-of-type(2) {
     fill: {{ ui.color }};
 }
@@ -67,10 +75,12 @@ span[data-testid="stMainMenu"] button[data-testid="baseButton-headerNoPadding"]:
 div[data-testid="stAppViewContainer"] {
     pointer-events: auto;
 }
+
 div[data-testid="stMainBlockContainer"] {
     pointer-events: none;
     padding-top: 5rem;
 }
+
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
     pointer-events: auto;
 }
@@ -78,13 +88,9 @@ div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] div {
     margin-top: unset;
 }
+
 section[data-testid="stSidebar"] {
     pointer-events: auto;
-}
-section.stMain {
-    pointer-events: auto;
-    position: relative;
-    top: {{ ui.height }};
 }
 
 section.stMain div.stVerticalBlock {
@@ -131,7 +137,12 @@ div[data-testid="stSidebarContent"] button[data-testid="baseButton-header"]:hove
 {% endif %}
 {% if options["sidebar_under_navbar"] %}
 section[data-testid="stSidebar"] {
-    margin-top: {{ ui.height }};
+    background-color: {{ui.bg_color}};
+}
+div[data-testid="stSidebarContent"] {
+    /* margin-top: {{ ui.height }}; */
+    top: {{ ui.height }};
+    background-color: {{ui.theme.backgroundColor}};
 }
 {% endif %}
 
