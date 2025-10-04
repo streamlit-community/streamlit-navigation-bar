@@ -34,7 +34,7 @@ div[data-testid="stAppViewBlockContainer"] {
 section.stMain {
     pointer-events: auto;
     position: relative;
-    top: {{ ui.height }};
+    top: 2rem;
 }
 #stDecoration {
     visibility: hidden;
@@ -79,6 +79,7 @@ div[data-testid="stAppViewContainer"] {
 div[data-testid="stMainBlockContainer"] {
     pointer-events: none;
     padding-top: 5rem;
+    margin-top: -5rem;
 }
 
 div[data-testid="collapsedControl"], div[data-testid="stSidebarCollapsedControl"] {
