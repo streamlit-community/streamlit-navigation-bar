@@ -34,7 +34,6 @@ div[data-testid="stAppViewBlockContainer"] {
 section.stMain {
     pointer-events: auto;
     position: relative;
-    /* top: {{ ui.height }}; */
     top: 2rem;
 }
 #stDecoration {
